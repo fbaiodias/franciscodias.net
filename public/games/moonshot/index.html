@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+		<title>A multiplayer game built using HTML5 canvas and WebSockets</title>
+		<meta charset="utf-8">
+		
+		<link rel="stylesheet" href="style/reset.css">
+		<link rel="stylesheet" href="style/game.css">
+	</head>
+	
+	<body>
+		<canvas id="gameCanvas"></canvas>
+		<script src="http://franciscodias.net:8000/socket.io/socket.io.js"></script>
+		<script src="js/requestAnimationFrame.js"></script>
+		<script src="js/Keys.js"></script>
+		<script src="js/Player.js"></script>
+		<script src="js/Matches.js"></script>
+		<script src="js/Bullet.js"></script>
+		<script src="js/Gun.js"></script>
+		<script src="js/Apple.js"></script>
+		<script src="js/FirstAid.js"></script>
+		<script src="js/PillFood.js"></script>
+		<script src="js/PillOxygen.js"></script>
+		<script src="js/PillLife.js"></script>
+		<script src="js/Oxygen.js"></script>
+		<script src="js/Compass.js"></script>
+		<script src="js/Instructions.js"></script>
+		<script src="js/game.js"></script>
+		<script>
+			// Initialise the game
+			init();
+			animate();
+		</script>
+		<a href="https://github.com/XicoMBD/ludumdare28" target="_blank"><img style="position: absolute; top: 0px; right: 0px;" src="images/github.png" alt="F**k me on GitHub"></a>
+	</body>
+</html>

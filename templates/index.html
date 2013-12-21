@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<!--
+	Prologue 1.1 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>{{name}}</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600" rel="stylesheet" type="text/css" />
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-panels.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel-noscript.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-wide.css" />
+		</noscript>
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<div id="header" class="skel-panels-fixed">
+
+				<div class="top">
+
+					<!-- Logo -->
+						<div id="logo">
+							<span class="image avatar48"><img src="images/avatar.jpg" alt="" /></span>
+							<h1 id="title">{{name}}</h1>
+							<span class="byline">{{byline}}</span>
+						</div>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="#top" id="top-link" class="skel-panels-ignoreHref"><span class="fa fa-home">Intro</span></a></li>
+								<li><a href="#games" id="games-link" class="skel-panels-ignoreHref"><span class="fa fa-gamepad">Games</span></a></li>
+								<li><a href="#robots" id="robots-link" class="skel-panels-ignoreHref"><span class="fa fa-bolt">Robots</span></a></li>
+								<li><a href="#webs" id="webs-link" class="skel-panels-ignoreHref"><span class="fa fa-th">Websites</span></a></li>
+								<li><a href="#about" id="about-link" class="skel-panels-ignoreHref"><span class="fa fa-user">About Me</span></a></li>
+								<li><a href="#contact" id="contact-link" class="skel-panels-ignoreHref"><span class="fa fa-envelope">Contact</span></a></li>
+							</ul>
+						</nav>
+						
+				</div>
+				
+				<div class="bottom">
+
+					<!-- Social Icons -->
+						<ul class="icons">
+							<li><a href="http://fb.com/xicombd" class="fa fa-facebook solo"><span>Facebook</span></a></li>
+							<li><a href="http://twitter.com/xicombd" class="fa fa-twitter solo"><span>Twitter</span></a></li>
+							<li><a href="http://linkedin.com/in/xicombd/" class="fa fa-linkedin solo"><span>LinkedIn</span></a></li>
+							<li><a href="http://github.com/xicombd" class="fa fa-github solo"><span>Github</span></a></li>
+							<li><a href="mailto:xicombd@gmail.com" class="fa fa-envelope solo"><span>Email</span></a></li>
+						</ul>
+				
+				</div>
+			
+			</div>
+
+		<!-- Main -->
+			<div id="main">
+			
+				<!-- Intro -->
+					<section id="top" class="one">
+						<div class="container">
+
+							<a href="" class="image featured"><img src="images/cover.jpg" alt="" /></a>
+
+							<header>
+								<h2 class="alt">Hello! I'm <strong>{{name}}</strong>.
+							</header>
+							
+							<p>I'm a student and I love surfing and making stuff in my spare time.<br>
+							
+							</p>
+
+							<footer>
+								<a href="#games" class="button scrolly">Have a look at my pet projects below</a>
+							</footer>
+
+						</div>
+					</section>
+					
+				<!-- Games -->
+					<section id="games" class="two">
+						<div class="container">
+					
+							<header>
+								<h2>Games</h2>
+							</header>
+							
+							<p>Sometimes I like to try to make games, this is what comes out.</p>
+						
+							{{#each games}}
+							<div class="row">
+								{{#each cells}}
+							  	<div class="4u">
+									<article class="item">
+										<a href="./game/{{id}}" class="image full"><img src="/images/{{image}}" alt="" /></a>
+										<header>
+											<h3>{{name}}</h3>
+										</header>
+									</article>
+								</div>
+								{{/each}}
+							</div>
+							{{/each}}
+
+						</div>
+					</section>
+					
+				<!-- Robots -->
+					<section id="robots" class="three">
+						<div class="container">
+					
+							<header>
+								<h2>Robots</h2>
+							</header>
+							
+							<p>Over the years I've been building robots for fun. Which one is yout favorite?</p>
+						
+							{{#each robots}}
+							<div class="row">
+								{{#each cells}}
+							  	<div class="4u">
+									<article class="item">
+										<a href="./robot/{{id}}" class="image full"><img src="/images/{{image}}" alt="{{name}}" /></a>
+										<header>
+											<h3>{{name}}</h3>
+										</header>
+									</article>
+								</div>
+								{{/each}}
+							</div>
+							{{/each}}
+						</div>
+					</section>
+					
+				<!-- Webs -->
+					<section id="webs" class="two">
+						<div class="container">
+					
+							<header>
+								<h2>Websites</h2>
+							</header>
+						
+							{{#each webs}}
+							<div class="row">
+							{{#each cells}}
+							  	<div class="4u">
+									<article class="item">
+										<a href="./web/{{id}}" class="image full"><img src="/images/{{image}}" alt="" /></a>
+										<header>
+											<h3>{{name}}</h3>
+										</header>
+									</article>
+								</div>
+							{{/each}}
+							</div>
+							{{/each}}
+
+						</div>
+					</section>
+
+				<!-- About Me -->
+					<section id="about" class="three">
+						<div class="container">
+
+							<header>
+								<h2>About Me</h2>
+							</header>
+
+							<a href="" class="image featured"><img src="images/about.jpg" alt="" /></a>
+							
+							<p>
+								I'm a 19 years old student in the second year of Computer Engineering at <a href="http://tecnico.pt/">Instituto Superior Técnico</a>. I'm also part of the <a href="http://www.ieee-ist.org/">IEEE IST Student Branch</a>, <a href="http://sinfo.org/">SINFO</a>'s organisation, <a href="https://plus.google.com/u/0/105135300456431065608/posts" target="_blank">GDG Lisbon</a> and was a volunteer at <a href="http://lxjs.org/">LXJS</a>.
+							<br>
+								I enjoy playing with robots, having built lots of them on my own and some in collaboration with <a href="http://artica.cc/" target="_blank">Artica</a> and <a href="http://idmind.pt" target="_blank">IdMind</a> or other friends.  
+							<br>
+								Since last year I started taking more interest in Web Development, and I'm currently discovering the awesome world of <a href="http://nodejs.org" target="_blank">Node</a>, HMTL5 and Javascript.
+							<br>
+								In my free time I also love surfing (the waves, not just the web) <span class="fa fa-smile-o"></span>
+							</p>
+						</div>
+					</section>
+			
+				<!-- Contact -->
+					<section id="contact" class="four">
+						<div class="container">
+
+							<header>
+								<h2>Contact Me!</h2>
+							</header>
+
+							<p>I would love to hear from you. If you want, contact me using one of the following options: 
+							<br>
+							(Use the language you prefer - Portuguese or English)
+							</p>
+							<ol>
+								<li><span class="fa fa-phone"></span> +351 968591564</li>
+								<li><span class="fa fa-envelope"></span> xicombd@gmail.com</li>
+							</ol>
+
+						</div>
+					</section>
+			
+			</div>
+
+		<!-- Footer -->
+			<div id="footer">
+				
+				<!-- Copyright -->
+					<div class="copyright">
+						<p>&copy; 2013 {{name}}.</p>
+						<ul class="menu">
+							<li>Design based on <a href="http://html5up.net">HTML5 UP</a></li>
+							<li>Powered by <a href="http://nodejs.org">Node</a></li>
+						</ul>
+					</div>
+				
+			</div>
+
+	</body>
+</html>
