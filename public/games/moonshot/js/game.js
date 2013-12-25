@@ -15,10 +15,11 @@ var canvas,			// Canvas DOM element
 
 var playerXposition = 666,
 	newPlayerTicks = 200,
-	newPlayerTime = 200;
+	newPlayerTime = 200,
 	shotTicks = 200,
 	shotTime = 200,
 	count = 2,
+	inShip = false,
 	counter = setInterval(timer, 100); // chama a função timer de 0,10 a 0,10 segundos
 
 var lifeBooster = 1000,
@@ -213,17 +214,36 @@ function onNewObject(data) {
 		case "I":
 			newObject = new Instructions(data.x, data.y);
 			break;
-		case "P":
+		case "S":
+			newObject = new SpaceShipEnding(data.x, data.y);
+			break;
+		case "B":
+			switch(data.id.charAt(1)){	
+				case "R":
+					newObject = new Ravine(data.x, canvas.height-480);
+					newObject.fixed = data.fixed;
+					break;
+				case "M":
+					newObject = new Monster(data.x, canvas.height-480);
+					newObject.fixed = data.fixed;
+					break;
+			}
+			break;
+		case "E":
 			switch(data.id.charAt(1)){
-			case "F":
-				newObject = new PillFood(data.x, data.y);
-				break;
-			case "O":
-				newObject = new PillOxygen(data.x, data.y);
-				break;
-			case "L":
-				newObject = new PillLife(data.x, data.y);
-				break;
+				/*case "F":
+					newObject = new PillFood(data.x, data.y);
+					break;
+				case "O":
+					newObject = new PillOxygen(data.x, data.y);
+					break;
+				case "L":
+					newObject = new PillLife(data.x, data.y);
+					break;*/
+				case "R":
+					newObject = new Rope(data.x, data.y);
+					newObject.used = data.used;
+					break;
 			}
 		break;
 	}
@@ -390,22 +410,68 @@ function update() {
 
 	if(oxygenTank<=0 || hunger<=0) life--;
 
-
+	objectById("S0").coco=false;
+	inShip = false;
 	var i;
 	for (i = 0; i < objects.length; i++) {
+		if(objects[i].id.indexOf("BM") != -1) {
+			objects[i].update();
+		}
+
 		if(checkCollision(localPlayer, objects[i]) && youCanTake) {
-			objects[i].setOn(true);
-			localPlayer.objectId = objects[i].id;
-			youCanTake = false;
-			count = 4;
+			if(objects[i].id.indexOf("BR") != -1) {
+				if(localPlayer.objectId && localPlayer.objectId.indexOf("ER") != -1 && !objects[i].fixed) {
+					//objectById(localPlayer.objectId).used = true;
+					//localPlayer.objectId = false;
+					//objectById(localPlayer.objectId).setOn(false);
+					objects[i].fixed = true;
 
-			//console.log(JSON.stringify(player))
+					socket.emit("object used", {id: localPlayer.id, objectId: localPlayer.objectId});
+					socket.emit("object fixed", {id: localPlayer.id, objectId: objects[i].id});
+				} 
 
-			// Send local player data to the game server
-			socket.emit("catch object", {objectId: objects[i].id});	
+				if(!objects[i].fixed && localPlayer.getX() > objects[i].getX()+100 && localPlayer.getX() < objects[i].getX()+objects[i].width-100) life = 0;
+			}
+			else if(objects[i].id.indexOf("BM") != -1) {
+				if(localPlayer.objectId && localPlayer.objectId.indexOf("G") != -1 && !objects[i].fixed) {
+					//objectById(localPlayer.objectId).used = true;
+					//localPlayer.objectId = false;
+					//objectById(localPlayer.objectId).setOn(false);
+					objects[i].fixed = true;
+
+					socket.emit("object used", {id: localPlayer.id, objectId: localPlayer.objectId});
+					socket.emit("object fixed", {id: localPlayer.id, objectId: objects[i].id});
+				} 
+
+				if(!objects[i].fixed && localPlayer.getX() > objects[i].getX()+100  && localPlayer.getX() < objects[i].getX()+objects[i].width-50) life = 0;
+			}
+			else {
+				if(objects[i].id != "S0") {
+					objects[i].setOn(true);
+					localPlayer.objectId = objects[i].id;
+					youCanTake = false;
+					count = 4;
+
+					// Send local player data to the game server
+					socket.emit("catch object", {objectId: objects[i].id});					
+				}
+				else if(objects[i].id == "S0"){
+					objects[i].coco = true;
+					inShip = true;
+					objects[i].draw(ctx, localPlayer);
+					if(keys.x){
+						objects[i].update();
+						socket.emit("the end");
+					}
+				}
+				else if (keys.x){
+					objects[i].coco = true;
+					objects[i].draw(ctx, localPlayer);
+				}
+			}
 		};
-	};
-
+	}
+	
 	if (localPlayer.objectId && keys.x){
 		var dropObject = objectById(localPlayer.objectId);
 		if(dropObject) {
@@ -428,7 +494,8 @@ function update() {
 		case "A":
 			hunger = hungerBooster;
 			break;
-		case "P":
+		/*
+		case "E":
 			switch(localPlayer.objectId.charAt(1)) {
 				case "F":
 					hunger = 1300;
@@ -443,7 +510,8 @@ function update() {
 					oxygenBooster = 1300;
 					break;
 			}
-			break;		
+			break;	
+		*/	
 		case "G":
 			if (keys.shift){
 				objectById(localPlayer.objectId).shoot(localPlayer);
@@ -451,14 +519,22 @@ function update() {
 
 			var gun = objectById(localPlayer.objectId);
 				
-			for (i = 0; i < remotePlayers.length; i++) {
-				if(gun.getBullet()){
+			if(gun.getBullet()){
+				for (i = 0; i < remotePlayers.length; i++) {
 					if(checkCollision(remotePlayers[i], gun.getBullet())) {
 						socket.emit("player shot", {shotId: remotePlayers[i].id, shooterId: localPlayer.id});	
 						console.log("SHOT");
 					}
 				}
-			};
+
+				var monster = objectById("BM0");
+				if(monster && !monster.fixed && checkCollision(monster, gun.getBullet())) {
+					monster.fixed = true;
+
+					socket.emit("object used", {id: localPlayer.id, objectId: localPlayer.objectId});
+					socket.emit("object fixed", {id: localPlayer.id, objectId: monster.id});
+				}
+			}
 			break;
 	}
 
@@ -551,13 +627,6 @@ function drawInformation(x,y) {
 function draw() {
 	// Draw the background
 	drawBackground(localPlayer)
-	// Draw the local player
-	if (!(life <=0)) {
-		localPlayer.draw(ctx);
-	}
-	else{
-		localPlayer.drawDead(ctx);
-	}
 
 
 	// Draw the remote players
@@ -565,8 +634,23 @@ function draw() {
 	for (i = 0; i < remotePlayers.length; i++) {
 		remotePlayers[i].drawAsRemote(ctx, localPlayer);
 	};
+
+	if(objectById("BR0")) objectById("BR0").draw(ctx, localPlayer);
+
 	for (i = 0; i < objects.length; i++) {
-		objects[i].draw(ctx, localPlayer);
+		if(objects[i].id != "BR0"){
+			objects[i].draw(ctx, localPlayer);
+		}
+	}
+
+	// Draw the local player
+	if (!(life <=0)) {
+		if(!inShip) {
+			localPlayer.draw(ctx);
+		}
+	}
+	else{
+		localPlayer.drawDead(ctx);
 	}
 	
 	if(localPlayer.objectId.charAt(0)=="I"){

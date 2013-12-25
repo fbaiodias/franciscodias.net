@@ -1,28 +1,21 @@
 /**************************************************
-** GAME Compass CLASS
+** GAME Rope CLASS
 **************************************************/
-var Compass = function(startX, startY) {
+var Rope = function(startX, startY) {
 	var x = startX,
 		y = startY,
 		onPlayer = false,
-		image = new Image(),
-		imageLeft = new Image(),
-		imageRight = new Image(),
-		imageBalon = new Image(),
-		frame0,
-		frame1,
-		frame = 0,
-		framesAmount = 0,
+		used = false,
+		image,
 		id;
 
-	image.src = "images/compass.png";
+	image = new Image();
+	imageBalon = new Image();
+	image.src = "images/rope.png";
 	imageBalon.src = "images/balon.png";
-	imageRight.src = "images/compassRight.png";
-	imageLeft.src = "images/compassLeft.png";
-
+	
 	var width = 60,
 		height = 60;
-	
 
 	// Getters and setters
 	var getX = function() {
@@ -45,28 +38,13 @@ var Compass = function(startX, startY) {
 		y = newY;
 	};
 
-	var setOn = function(newState) {
-		onPlayer = newState;
+	var setOn = function(newY) {
+		onPlayer = newY;
 	};
 
-	/*var updateFrames = function() {
-		if (frame == 1){
-			framesAmount ++
-			if ( framesAmount == 7){
-				frame = 0
-				framesAmount = 0
-			}
-		}
-		else{
-			framesAmount ++
-			if ( framesAmount == 7){
-				frame = 1
-				framesAmount = 0
-			}
-		}
-	}*/
-
 	var draw = function(ctx, localPlayer) {
+		if(this.id == "BR0") console.log("OOOPS");
+
 		if (onPlayer == false){
 			var imageX = playerXposition-(localPlayer.getX()-x)-image.width/2,
 				imageY = y-image.height/2;
@@ -74,19 +52,11 @@ var Compass = function(startX, startY) {
 			ctx.drawImage(image, imageX, imageY);
 		}
 		else if(localPlayer.objectId == this.id){
-			
-			if(objectById("S0").getX()+250 > localPlayer.getX()) {
-				ctx.drawImage(imageBalon, playerXposition-90, localPlayer.getY()-120);
-				ctx.drawImage(imageRight, playerXposition-81, localPlayer.getY()-115);
-				ctx.drawImage(imageRight, 500, 10);
-			}
-			else {
-				ctx.drawImage(imageBalon, playerXposition-90, localPlayer.getY()-120);
-				ctx.drawImage(imageLeft, playerXposition-81, localPlayer.getY()-115);
-				ctx.drawImage(imageLeft, 500, 10);
-			}
+			ctx.drawImage(imageBalon, playerXposition-90, localPlayer.getY()-120);
+			ctx.drawImage(image, playerXposition-81, localPlayer.getY()-117);
 		}
-	};
+
+	};	
 
 	var drawOn = function(ctx, imageX, imageY) {
 		ctx.drawImage(imageBalon, imageX-45, imageY-70);
@@ -101,6 +71,7 @@ var Compass = function(startX, startY) {
 		setX: setX,
 		setY: setY,
 		setOn: setOn,
+		used: used,
 		draw: draw,
 		drawOn: drawOn,
 		height: height,

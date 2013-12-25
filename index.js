@@ -17,7 +17,8 @@ var options = {
         path: 'templates',
         engines: {
             html: 'handlebars'
-        }
+        },
+        partialsPath: 'partials'
     }
 }; 
 
@@ -70,29 +71,22 @@ var routes = [
 
 server.addRoutes(routes);
 
-function getRobots(request, reply) {
-
-    if (request.query.name) {
-        return reply(findRobots(request.query.name));
-    }
-
-    reply(robots);
-}
-
-function findRobots(name) {
-
-    return robots.filter(function(robot) {
-        return robot.name.toLowerCase() === name.toLowerCase();
+ function homeHandler (request) {
+    // Render the view with the custom greeting
+    request.reply.view('index.html', { 
+        name: 'Francisco Baio Dias', 
+        byline: 'Student @IST', 
+        robots: toGrid(robots), 
+        webs: toGrid(webs), 
+        games: toGrid(games) 
     });
-}
+};
 
 function getRobot(request, reply) {
 
     var robot = robots.filter(function(p) {
         return p.id === request.params.id;
     }).pop();
-
-    //reply(robot);
 
     reply.view('robot.html', { 
         uri: uri,
@@ -102,29 +96,11 @@ function getRobot(request, reply) {
     });
 }
 
-function getGames(request, reply) {
-
-    if (request.query.name) {
-        return reply(findGames(request.query.name));
-    }
-
-    reply(games);
-}
-
-function findGames(name) {
-
-    return games.filter(function(game) {
-        return game.name.toLowerCase() === name.toLowerCase();
-    });
-}
-
 function getGame(request, reply) {
 
     var game = games.filter(function(p) {
         return p.id === request.params.id;
     }).pop();
-
-    //reply(game);
 
     reply.view('game.html', { 
         uri: uri,
@@ -134,29 +110,11 @@ function getGame(request, reply) {
     });
 }
 
-function getWebs(request, reply) {
-
-    if (request.query.name) {
-        return reply(findWebs(request.query.name));
-    }
-
-    reply(webs);
-}
-
-function findWebs(name) {
-
-    return webs.filter(function(web) {
-        return web.name.toLowerCase() === name.toLowerCase();
-    });
-}
-
 function getWeb(request, reply) {
 
     var web = webs.filter(function(p) {
         return p.id === request.params.id;
     }).pop();
-
-    //reply(web);
 
     reply.view('web.html', { 
         uri: uri,
@@ -179,19 +137,6 @@ function toGrid(data){
 
     return rows;
 }
-
-
-// Define the route
- function homeHandler (request) {
-    // Render the view with the custom greeting
-    request.reply.view('index.html', { 
-        name: 'Francisco Baio Dias', 
-        byline: 'Student @IST', 
-        robots: toGrid(robots), 
-        webs: toGrid(webs), 
-        games: toGrid(games) 
-    });
-};
 
 // Start the server
 

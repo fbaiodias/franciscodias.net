@@ -34,14 +34,26 @@ var Player = function(startX, startY) {
 		lowLevelFrame = 0,
 		
 		back = false; 
-	
-		frame0.src = "images/astronaut1.png";
-		frame1.src = "images/astronaut2.png";
-		frameBack0.src = "images/astronautBack1.png";
-		frameBack1.src = "images/astronautBack2.png";
-		frameJump.src = "images/astronautJump.png";
-		frameBackJump.src = "images/astronautBackJump.png";
-		frameDead.src = "images/deadPlayer.png"  ;
+		
+		if(true) {
+			frame0.src = "images/doge1.png";
+			frame1.src = "images/doge2.png";
+			frameBack0.src = "images/dogeBack1.png";
+			frameBack1.src = "images/dogeBack2.png";
+			frameJump.src = "images/dogeJump.png";
+			frameBackJump.src = "images/dogeBackJump.png";
+			frameDead.src = "images/deadPlayer.png"  ;
+		}
+		else {
+			frame0.src = "images/astronaut1.png";
+			frame1.src = "images/astronaut2.png";
+			frameBack0.src = "images/astronautBack1.png";
+			frameBack1.src = "images/astronautBack2.png";
+			frameJump.src = "images/astronautJump.png";
+			frameBackJump.src = "images/astronautBackJump.png";
+			frameDead.src = "images/deadPlayer.png"  ;
+		}
+
 		lifeNeed.src = "images/lifeNeed.png";
 		foodNeed.src = "images/foodNeed.png";
 		oxygenNeed.src = "images/oxygenNeed.png";
@@ -64,9 +76,9 @@ var Player = function(startX, startY) {
 		};
 
 		if (newX < x) {
-			back = true;
+			this.back = true;
 		} else {
-			back = false;
+			this.back = false;
 		};
 
 		x = newX;
@@ -101,10 +113,10 @@ var Player = function(startX, startY) {
 
 		// Left key takes priority over right
 		if (keys.left) {
-			back = true;
+			this.back = true;
 			x -= moveAmount;
 		} else if (keys.right) {
-			back = false;
+			this.back = false;
 			x += moveAmount;
 		};
 
@@ -155,7 +167,7 @@ var Player = function(startX, startY) {
 			imageY = y-frame0.height/2;
 		
 		if (jumpTicks < jumpTime){
-			if (back == false){
+			if (this.back == false){
 				ctx.drawImage(frameJump, imageX, imageY)
 			}
 			else{
@@ -164,7 +176,7 @@ var Player = function(startX, startY) {
 		}
 		else {
 			if (frame == 1){
-				if (back == false){
+				if (this.back == false){
 					ctx.drawImage(frame0, imageX, imageY)
 				}
 				else{
@@ -172,7 +184,7 @@ var Player = function(startX, startY) {
 				}
 			}
 			else{
-				if (back == false){
+				if (this.back == false){
 					ctx.drawImage(frame1, imageX, imageY)
 				}
 				else{
@@ -197,7 +209,7 @@ var Player = function(startX, startY) {
 		}
 
 		if (jumpTicks < jumpTime){
-			if (back == false){
+			if (this.back == false){
 				ctx.drawImage(frameJump, imageX, imageY)
 			}
 			else{
@@ -206,7 +218,7 @@ var Player = function(startX, startY) {
 		}
 		else {
 			if (frame == 1){
-				if (back == false){
+				if (this.back == false){
 					ctx.drawImage(frame0, imageX, imageY)
 				}
 				else{
@@ -214,7 +226,7 @@ var Player = function(startX, startY) {
 				}
 			}
 			else{
-				if (back == false){
+				if (this.back == false){
 					ctx.drawImage(frame1, imageX, imageY)
 				}
 				else{
