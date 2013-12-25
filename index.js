@@ -5,11 +5,10 @@ var Tabletop = require('tabletop');
 var sheetData = [],
     robots = [],
     games = [],
-    webs = []
+    webs = [];
 
-var uri = ""
+var uri = "";
 
-var lastFetch;
 var KEY = '0AhSAZYKyt0p7dHV5WUszV3kzczA5Q2kwUm90SnNUZHc'
 
 var options = {
@@ -25,15 +24,17 @@ var options = {
 // Create a server with a host, port, and options
 var server = Hapi.createServer('0.0.0.0', 80, options);
 
-Tabletop.init( { key: '0AhSAZYKyt0p7dHV5WUszV3kzczA5Q2kwUm90SnNUZHc',
-                 callback: function(data, tabletop) { 
-                   	//console.log(data); 
-                   	sheetData = data;
-                    robots = sheetData.Robots.elements;
-                    games = sheetData.Games.elements;
-                    webs = sheetData.Webs.elements;
-					},
-				simpleSheet: false} )
+Tabletop.init({
+    key: KEY,
+    callback: function(data, tabletop) { 
+        //console.log(data); 
+        sheetData = data;
+        robots = sheetData.Robots.elements;
+        games = sheetData.Games.elements;
+        webs = sheetData.Webs.elements;
+    },
+    simpleSheet: false 
+});
 
 var routes = [
     { method: 'GET', path: '/', config: { handler: homeHandler } },
@@ -139,7 +140,6 @@ function toGrid(data){
 }
 
 // Start the server
-
 server.start(function () {
     uri = server.info.uri;
     console.log('Server started at: ' + server.info.uri);
