@@ -12,5 +12,8 @@ logs
 results
 build
 
+public/games
+public/webs
+public/lab
 node_modules
 sftp-config.json

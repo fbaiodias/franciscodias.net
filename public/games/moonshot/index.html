@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 
-<html lang="en">
-
+<html prefix="og: http://ogp.me/ns#">
 	<head>
-		<title>Moonshot: A multiplayer game built using HTML5 canvas and WebSockets</title>
+		<title>Moonshot: Help DOGE surviving on the moon!</title>
 		<meta charset="utf-8">
 		
 		<link rel="stylesheet" href="style/reset.css">
 		<link rel="stylesheet" href="style/game.css">
 
-		<meta property="og:title" content="Moonshot" />
-		<meta property="description" content="A multiplayer game built using HTML5 canvas and WebSockets" />
+		<meta property="og:title" content="Moonshot: Help DOGE surviving on the moon!" />
+		<meta property="description" content="DOGE Moonshot: A multiplayer game built using HTML5 canvas and WebSockets" />
 		<meta property="og:url" content="http://franciscodias.net/games/moonshot" />
 		<meta property="og:image" content="http://franciscodias.net/images/moonshot.jpg" />
 	</head>
@@ -28,6 +27,7 @@
 		<script src="js/Gun.js"></script>
 		<script src="js/Apple.js"></script>
 		<script src="js/FirstAid.js"></script>
+		<script src="js/Radio.js"></script>
 		<!--<script src="js/PillFood.js"></script>
 		<script src="js/PillOxygen.js"></script>
 		<script src="js/PillLife.js"></script>-->
@@ -42,7 +42,27 @@
 			init();
 			animate();
 		</script>
-		<a href="https://github.com/XicoMBD/ludumdare28" target="_blank"><img style="position: absolute; top: 0px; right: 0px;" src="images/github.png" alt="F**k me on GitHub"></a>
+		<a href="https://github.com/XicoMBD/ludumdare28" target="_blank"><img style="position: absolute; top: 0px; right: 0px;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="F**k me on GitHub"></a>
+ 
+		<script src="http://cdn.bitmindo.com/dogecoin.min.js"></script>
+		<div id="about">
+			<script>
+			  CoinWidgetCom.go({
+			    /* make sure you update the wallet_address or you will not get your donations */
+			    wallet_address: "DSC6esD4Z5R3m1TXf1em2ugW6194pKUMvY"
+			    , currency: "dogecoin"
+			    , counter: "amount"
+			    , alignment: "bl"
+			    , qrcode: true
+			    , auto_show: false
+			    , lbl_button: "Tip"
+			    , lbl_address: "Tip Dogecoin to this Address:"
+			    , lbl_amount: "DOGE"
+			  });
+			</script>
+		</div>
+
+		<audio id="dogemusic" src="dogemusic.mp3" preload="auto"></audio>
 	</body>
 
 	<script>

@@ -9,6 +9,8 @@ var sheetData = [],
 
 var uri = "";
 
+var port = 8080;
+
 var KEY = '0AhSAZYKyt0p7dHV5WUszV3kzczA5Q2kwUm90SnNUZHc'
 
 var options = {
@@ -22,7 +24,7 @@ var options = {
 }; 
 
 // Create a server with a host, port, and options
-var server = Hapi.createServer('0.0.0.0', 80, options);
+var server = Hapi.createServer('0.0.0.0', port, options);
 
 Tabletop.init({
     key: KEY,

@@ -80,6 +80,10 @@ var Instructions = function(startX, startY) {
 			ctx.fillText("SHOOT: SHIFT key",canvas.width/2 -260,380);
 			ctx.strokeText("DROP OBJECT: X key",canvas.width/2 -260,450);
 			ctx.fillText("DROP OBJECT: X key",canvas.width/2 -260,450);
+			ctx.strokeText("YOUR DOGE OBJECTIVE:",canvas.width/2 -260,520);
+			ctx.fillText("YOUR DOGE OBJECTIVE:",canvas.width/2 -260,520);
+			ctx.strokeText("Find the last Dogeship!",canvas.width/2 -255,565);
+			ctx.fillText("Find the last Dogeship!",canvas.width/2 -255,565);
 		}
 	};	
 

@@ -11,6 +11,8 @@ var canvas,			// Canvas DOM element
 	moon,
 	previouslyDead = false,
 	finalScores,
+	finalStats,
+	theEndSent = false,
 	youCanTake = true;
 
 var playerXposition = 666,
@@ -120,6 +122,8 @@ var setEventHandlers = function() {
 
 	// Player move message received
 	socket.on("highscores", function(data){
+		finalStats = data.stats;
+		console.log(data.stats);
 		finalScores = data.scores.filter(function(element){
 			return element.name != null && element.name != "null" && element.name != "";
 		});
@@ -134,8 +138,17 @@ var setEventHandlers = function() {
 	// Player drop object received
 	socket.on("drop object", onDropObject);
 
-	// Player low level received
+	// Listen for catch object message
+	socket.on("object used", onObjectUsed);
+
+	// Listen for catch object message
+	socket.on("object fixed", onObjectFixed);
+
+	// Listen for low level message
 	socket.on("low level", onLowLevel);
+
+	// Listen for the end message
+	socket.on("the end", onTheEnd);
 };
 
 // Keyboard key down
@@ -216,6 +229,9 @@ function onNewObject(data) {
 			break;
 		case "S":
 			newObject = new SpaceShipEnding(data.x, data.y);
+			break;
+		case "R":
+			newObject = new Radio(data.x, data.y);
 			break;
 		case "B":
 			switch(data.id.charAt(1)){	
@@ -364,6 +380,59 @@ function onLowLevel(data) {
 	console.log("received low level of", data.kind, "from", lowPlayer.id);
 };
 
+// Object used
+function onObjectUsed(data) {
+	// Find player in array
+	var dropPlayer = playerById(data.id);
+	var usedObject = objectById(data.objectId);
+	// Player not found
+	if (!dropPlayer) {
+		util.log("Player not found: "+this.id);
+		return;
+	};
+
+	if(!usedObject) {
+		util.log("Object not found: "+data.objectId);
+		return;
+	};
+
+	dropPlayer.objectId = "";
+	usedObject.onPlayer = false;
+
+	usedObject.setX(data.x);
+	usedObject.setY(data.y);
+	usedObject.used = true;
+
+	console.log("USED THE", usedObject.id);
+};
+
+// Object fixed
+function onObjectFixed(data) {
+	// Find player in array
+	var dropPlayer = playerById(data.id);
+	var fixedObject = objectById(data.objectId);
+	// Player not found
+	if (!dropPlayer) {
+		util.log("Player not found: "+this.id);
+		return;
+	};
+
+	if(!fixedObject) {
+		util.log("Object not found: "+data.objectId);
+		return;
+	};
+
+	console.log("FIXED THE", fixedObject.id);
+
+	fixedObject.fixed = true;
+};
+
+// The end
+function onTheEnd(data) {
+	alert("Someone just took the last ship remaining and left you to die...\n Let's start again!");
+	window.location.reload();
+};
+
 /**************************************************
 ** GAME ANIMATION LOOP
 **************************************************/
@@ -383,7 +452,7 @@ function animate() {
 		localPlayer.objectId = "";
 
 		var name = prompt("You got "+localPlayer.getX()+" away from the ship. \n What's your name?");
-		socket.emit("player score", {score: localPlayer.getX(), playerName: name});
+		socket.emit("player score", {score: localPlayer.getX(), playerName: name, id: localPlayer.id});
 		previouslyDead = true;
 	}
 	draw();
@@ -433,22 +502,12 @@ function update() {
 				if(!objects[i].fixed && localPlayer.getX() > objects[i].getX()+100 && localPlayer.getX() < objects[i].getX()+objects[i].width-100) life = 0;
 			}
 			else if(objects[i].id.indexOf("BM") != -1) {
-				if(localPlayer.objectId && localPlayer.objectId.indexOf("G") != -1 && !objects[i].fixed) {
-					//objectById(localPlayer.objectId).used = true;
-					//localPlayer.objectId = false;
-					//objectById(localPlayer.objectId).setOn(false);
-					objects[i].fixed = true;
-
-					socket.emit("object used", {id: localPlayer.id, objectId: localPlayer.objectId});
-					socket.emit("object fixed", {id: localPlayer.id, objectId: objects[i].id});
-				} 
-
 				if(!objects[i].fixed && localPlayer.getX() > objects[i].getX()+100  && localPlayer.getX() < objects[i].getX()+objects[i].width-50) life = 0;
 			}
 			else {
 				if(objects[i].id != "S0") {
-					objects[i].setOn(true);
 					localPlayer.objectId = objects[i].id;
+					objects[i].setOn(true);
 					youCanTake = false;
 					count = 4;
 
@@ -459,9 +518,17 @@ function update() {
 					objects[i].coco = true;
 					inShip = true;
 					objects[i].draw(ctx, localPlayer);
-					if(keys.x){
+					if(objects[i].getY() >= -600 && theEndSent){
 						objects[i].update();
-						socket.emit("the end");
+					}
+					if(keys.x){			
+						if(!theEndSent) {
+							socket.emit("the end", {id: localPlayer.id});
+							theEndSent = true;
+							var name = prompt("You got away from the moon. You now are safe! \n What's your name?");
+							socket.emit("player score", {score: localPlayer.getX(), playerName: name, id: localPlayer.id});
+							previouslyDead = true;
+						}
 					}
 				}
 				else if (keys.x){
@@ -489,7 +556,7 @@ function update() {
 			oxygenTank = oxygenBooster;
 			break;
 		case "F":
-			if(oxygenTank>0 && hunger>0) life = lifeBooster;
+			if(oxygenTank>0 && hunger>0 && !checkCollision(localPlayer, objectById("BM0")) && !checkCollision(localPlayer, objectById("BR0"))) life = lifeBooster;
 			break;
 		case "A":
 			hunger = hungerBooster;
@@ -583,7 +650,7 @@ function drawInformation(x,y) {
   	ctx.font="20px Arial";
 
 	ctx.fillStyle = "rgb(255,255,255)";
-  	ctx.fillText(remotePlayers.length+" other player(s) in game rigth now.",x,y-10);
+  	ctx.fillText(remotePlayers.length+" other player(s) in game right now.",x,y-10);
   	
 	ctx.fillStyle = "rgb(0,0,255)";
   	ctx.fillRect(x, y, oxygenTank/5, 20);
@@ -614,11 +681,22 @@ function drawInformation(x,y) {
     ctx.lineWidth = 8;
   	ctx.fillStyle = "rgb(25,243,50)";
 	if(finalScores) {
-		ctx.strokeText("Highscores",canvas.width/2-215,150);
-		ctx.fillText("Highscores",canvas.width/2-215,150);
+		ctx.strokeText("Stats", canvas.width/2-440, 150);
+		ctx.fillText("Stats", canvas.width/2-440, 150);
+    	ctx.strokeText("Move Amount: " + finalStats.moveAmount + "m", canvas.width/2-440,200);
+		ctx.fillText("Move Amount: " + finalStats.moveAmount+ "m", canvas.width/2-440,200);
+		ctx.strokeText("PlayTime: " + finalStats.playTime + "s", canvas.width/2-440,200+40);
+		ctx.fillText("PlayTime: " + finalStats.playTime+ "s", canvas.width/2-440,200+40);
+		ctx.strokeText("Picked objects: " + finalStats.objectsCount, canvas.width/2-440,200+80);
+		ctx.fillText("Picked objects: " + finalStats.objectsCount, canvas.width/2-440,200+80);
+		ctx.strokeText("Your DOGE score: " + finalStats.score, canvas.width/2-440,200+120);
+		ctx.fillText("Your DOGE score: " + finalStats.score, canvas.width/2-440,200+120);	
+
+		ctx.strokeText("Highscores",canvas.width/2,150);
+		ctx.fillText("Highscores",canvas.width/2,150);
 		for(var i=0; i<finalScores.length && i<10; i++) {
-    		ctx.strokeText((i+1) + " - " + finalScores[i].name + " - " + finalScores[i].score,canvas.width/2-215,200+40*i);
-			ctx.fillText((i+1) + " - " + finalScores[i].name + " - " + finalScores[i].score,canvas.width/2-215,200+40*i);	
+    		ctx.strokeText((i+1) + " - " + finalScores[i].name + " - " + finalScores[i].score,canvas.width/2,200+40*i);
+			ctx.fillText((i+1) + " - " + finalScores[i].name + " - " + finalScores[i].score,canvas.width/2,200+40*i);	
 		}
 	}
 
@@ -627,13 +705,6 @@ function drawInformation(x,y) {
 function draw() {
 	// Draw the background
 	drawBackground(localPlayer)
-
-
-	// Draw the remote players
-	var i;
-	for (i = 0; i < remotePlayers.length; i++) {
-		remotePlayers[i].drawAsRemote(ctx, localPlayer);
-	};
 
 	if(objectById("BR0")) objectById("BR0").draw(ctx, localPlayer);
 
@@ -653,6 +724,12 @@ function draw() {
 		localPlayer.drawDead(ctx);
 	}
 	
+	// Draw the remote players
+	var i;
+	for (i = 0; i < remotePlayers.length; i++) {
+		remotePlayers[i].drawAsRemote(ctx, localPlayer);
+	};
+
 	if(localPlayer.objectId.charAt(0)=="I"){
 		objectById(localPlayer.objectId).draw(ctx, localPlayer);
 	}
