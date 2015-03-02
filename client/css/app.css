@@ -1,6 +1,6 @@
 .home .section {
   color: #fff;
-  background: #333;
+  background-color: #333;
   background-position: center center;
   background-position-x: 50%;
   background-position-y: 50%;
@@ -101,6 +101,7 @@
   text-align: center;
 }
 .home .skills span {
+  display: inline-block;
   margin: 2px;
   background: rgba(255,255,255,0.3);
   color: #fff;
@@ -112,5 +113,6 @@
   margin: 20px 0;
 }
 .home .links a {
+  display: inline-block;
   margin: 6px;
 }
