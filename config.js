@@ -16,6 +16,10 @@ config.hapi = {
   port: 3000
 }
 
+config.tabletop = {
+  key: '0AhSAZYKyt0p7dHV5WUszV3kzczA5Q2kwUm90SnNUZHc'
+}
+
 // Client side
 config.client = {
   isDev: config.isDev,

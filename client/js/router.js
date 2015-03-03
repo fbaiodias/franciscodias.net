@@ -13,7 +13,7 @@ var WebAppRouter = Router.extend({
   },
 
   catchAll: function () {
-    this.redirectTo('/notFound')
+    this.redirectTo('/')
   }
 })
 

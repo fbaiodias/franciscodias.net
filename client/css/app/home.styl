@@ -1,7 +1,9 @@
 .home
+  background-color: #222
+
   .section
     color: white
-    background-color: #333
+    background-color: #222
     backgroundCover()
     text-align: center
 
@@ -9,7 +11,7 @@
       color: white
 
     .column-group
-      padding: 80px 0
+      padding: 80px 20px
 
       .image-column
         text-align: center
@@ -55,12 +57,14 @@
   .section-bravebunny
     background: #435F30
 
+  .section-livebots
+    background: url('/static/livebots-background.jpg')
+    backgroundCover()
+
   .section-contact
     .contacts
       .fa
         margin-right: 8px
-
-
 
 
 
@@ -81,4 +85,9 @@
     a
       display: inline-block
       margin: 6px
+    a:hover
+      background: rgba(255,255,255,0.1)
+      padding: 2px 6px
+      margin: 0px
+      border-radius: 2px
 

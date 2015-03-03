@@ -1,6 +1,9 @@
+.home {
+  background-color: #222;
+}
 .home .section {
   color: #fff;
-  background-color: #333;
+  background-color: #222;
   background-position: center center;
   background-position-x: 50%;
   background-position-y: 50%;
@@ -21,7 +24,7 @@
   color: #fff;
 }
 .home .section .column-group {
-  padding: 80px 0;
+  padding: 80px 20px;
 }
 .home .section .column-group .image-column {
   text-align: center;
@@ -94,6 +97,17 @@
 .home .section-bravebunny {
   background: #435f30;
 }
+.home .section-livebots {
+  background: url("/static/livebots-background.jpg");
+  background-position: center center;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 .home .section-contact .contacts .fa {
   margin-right: 8px;
 }
@@ -115,4 +129,10 @@
 .home .links a {
   display: inline-block;
   margin: 6px;
+}
+.home .links a:hover {
+  background: rgba(255,255,255,0.1);
+  padding: 2px 6px;
+  margin: 0px;
+  border-radius: 2px;
 }

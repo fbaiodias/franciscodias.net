@@ -1,6 +1,24 @@
 var Hapi = require('hapi')
+var Tabletop = require('tabletop');
+
 var config = require('config')
 var internals = {}
+
+// globals
+var sheetData = []
+var robots = []
+var games = []
+
+Tabletop.init({
+  key: config.tabletop.key,
+  callback: function(data, tabletop) {
+    //console.log(data);
+    sheetData = data;
+    robots = sheetData.Robots.elements;
+    games = sheetData.Games.elements;
+  },
+  simpleSheet: false
+});
 
 var server = new Hapi.Server()
 server.connection(config.hapi)
@@ -23,7 +41,7 @@ server.ext('onPreResponse', function (request, reply) {
   return reply.continue()
 })
 
-var publicAssets = {
+server.route({
   method: 'GET',
   path: '/static/{path*}',
   config: {
@@ -35,15 +53,31 @@ var publicAssets = {
       }
     }
   }
-}
+})
 
-server.route(publicAssets)
+server.route({
+  method: 'GET',
+  path: '/api/robots',
+  handler: function (request, reply) {
+    reply(robots)
+  }
+})
+
+server.route({
+  method: 'GET',
+  path: '/api/games',
+  handler: function (request, reply) {
+    reply(games)
+  }
+})
+
 
 // require moonboots_hapi plugin
-server.register({ register: require('moonboots_hapi'), options: require('./moonbootsConfig') }, function (err) {
+server.register({ register: require('moonboots_hapi'), options: require('moonbootsConfig') }, function (err) {
   if (err) {
     throw err
   }
+
   // If everything loaded correctly, start the server:
   server.start(function (err) {
     if (err) {

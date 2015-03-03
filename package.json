@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "standard",
-    "start": "NODE_PATH=. node server.js",
-    "mon": "NODE_PATH=. nodemon server.js --ignore client/"
+    "start": "NODE_PATH=. node server",
+    "mon": "NODE_PATH=. nodemon server --ignore client/"
   },
   "dependencies": {
     "ampersand-dom": "^1.2.1",
@@ -24,6 +24,7 @@
     "jquery": "^2.1.3",
     "moonboots_hapi": "^4.0.2",
     "stylizer": "^2.0.0",
+    "tabletop": "^1.3.5",
     "templatizer": "^1.0.0",
     "underscore": "^1.6.0"
   },
