@@ -1,5 +1,5 @@
 var Hapi = require('hapi')
-var Tabletop = require('tabletop');
+var Tabletop = require('tabletop')
 
 var config = require('config')
 var internals = {}
@@ -11,14 +11,14 @@ var games = []
 
 Tabletop.init({
   key: config.tabletop.key,
-  callback: function(data, tabletop) {
-    //console.log(data);
-    sheetData = data;
-    robots = sheetData.Robots.elements;
-    games = sheetData.Games.elements;
+  callback: function (data, tabletop) {
+    // console.log(data)
+    sheetData = data
+    robots = sheetData.Robots.elements
+    games = sheetData.Games.elements
   },
   simpleSheet: false
-});
+})
 
 var server = new Hapi.Server()
 server.connection(config.hapi)
@@ -70,7 +70,6 @@ server.route({
     reply(games)
   }
 })
-
 
 // require moonboots_hapi plugin
 server.register({ register: require('moonboots_hapi'), options: require('moonbootsConfig') }, function (err) {

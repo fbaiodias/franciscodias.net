@@ -11,6 +11,7 @@
   "dependencies": {
     "ampersand-dom": "^1.2.1",
     "ampersand-input-view": "^4.0.1",
+    "ampersand-model": "^4.0.4",
     "ampersand-rest-collection": "^2.0.0",
     "ampersand-router": "^1.0.1",
     "ampersand-view": "^7.0.1",

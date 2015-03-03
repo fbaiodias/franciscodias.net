@@ -5,6 +5,7 @@ var domReady = require('domready')
 
 var Router = require('./router')
 var MainView = require('./views/main')
+var Robots = require('./models/robots')
 
 module.exports = {
   // this is the the whole app initter
@@ -34,16 +35,17 @@ module.exports = {
     // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    // })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    // })(window,document,'script','//www.google-analytics.com/analytics.js','ga')
 
-    // window.ga('create', 'UA-22227995-7', 'auto');
+    // window.ga('create', 'UA-22227995-7', 'auto')
 
-
-    // window.ga('create', 'UA-22227995-7', 'franciscodias.net');
-    // window.ga('send', 'pageview');
+    // window.ga('create', 'UA-22227995-7', 'franciscodias.net')
+    // window.ga('send', 'pageview')
   },
 
-  buildModels: function () {},
+  buildModels: function () {
+    this.robots = new Robots()
+  },
 
   buildHTML: function () {
     // wait for document ready to render our main view,
