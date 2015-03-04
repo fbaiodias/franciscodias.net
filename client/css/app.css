@@ -1,0 +1,178 @@
+.cards {
+  height: 250px;
+  overflow: hidden;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin: 0 auto;
+  white-space: nowrap;
+}
+.cards .card {
+  height: 150px;
+  margin: 20px 10px;
+  display: inline-block;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+.cards .card img {
+  height: 150px;
+}
+.cards .card .name {
+  background: #fff;
+  color: #666;
+  margin: 0;
+  padding: 15px 0;
+  font-size: 14px;
+  height: 50px;
+}
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0,0.5);
+  box-shadow: 0 0 1px rgba(255,255,255,0.5);
+}
+.home {
+  background-color: #222;
+}
+.home .section {
+  color: #fff;
+  background-color: #222;
+  background-position: center center;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  text-align: center;
+}
+.home .section h1,
+.home .section h2,
+.home .section h3,
+.home .section h4,
+.home .section h5,
+.home .section h6,
+.home .section a {
+  color: #fff;
+}
+.home .section .column-group {
+  padding: 80px 20px;
+}
+.home .section .column-group .image-column {
+  text-align: center;
+}
+.home .section .column-group .image-column img {
+  width: 90%;
+  max-width: 300px;
+}
+.home .section .text-column {
+  margin-top: 30px;
+}
+.home .section-header {
+  background: url("/static/header-background.jpg");
+  background-position: center center;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  text-align: left;
+}
+.home .section-header .column-group .image-column img {
+  border-radius: 50%;
+}
+.home .section-header .social-icon {
+  font-size: 50px;
+  text-decoration: none;
+  margin: 0.1em;
+  opacity: 0.9;
+}
+.home .section-header .social-icon:hover {
+  opacity: 1;
+}
+.home .section-sinfo {
+  background: url("/static/sinfo-background.jpg");
+  background-position: center center;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.home .section-muzzley {
+  background: url("/static/muzzley-background.jpg");
+  color: #fff;
+  background-position: center center;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.home .section-tecnico {
+  background: url("/static/tecnico-background.jpg");
+  background-position: center center;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.home .section-bravebunny {
+  background: #435f30;
+}
+.home .section-livebots {
+  background: url("/static/livebots-background.jpg");
+  background-position: center center;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.home .section-robots {
+  background: #574620;
+}
+.home .section-games {
+  background: #046;
+}
+.home .section-contact .contacts .fa {
+  margin-right: 8px;
+}
+.home .skills {
+  text-align: center;
+}
+.home .skills span {
+  display: inline-block;
+  margin: 2px;
+  background: rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+.home .links {
+  margin: 20px 0;
+}
+.home .links a {
+  display: inline-block;
+  margin: 6px;
+}
+.home .links a:hover {
+  background: rgba(255,255,255,0.1);
+  padding: 2px 6px;
+  margin: 0px;
+  border-radius: 2px;
+}
