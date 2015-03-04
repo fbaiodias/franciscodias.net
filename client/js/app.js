@@ -6,6 +6,7 @@ var domReady = require('domready')
 var Router = require('./router')
 var MainView = require('./views/main')
 var Robots = require('./models/robots')
+var Games = require('./models/games')
 
 module.exports = {
   // this is the the whole app initter
@@ -45,6 +46,7 @@ module.exports = {
 
   buildModels: function () {
     this.robots = new Robots()
+    this.games = new Games()
   },
 
   buildHTML: function () {
